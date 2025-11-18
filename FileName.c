@@ -1,59 +1,81 @@
-#include <stdio.h>
-#include <math.h>  
+﻿#include <stdio.h>
+#include <math.h>
 #include <locale.h>
+#define N 1000  
 
-float calculate(float x) {
-    float result;
-    result = x * x + sin(5 * x);
-    return result;
+
+double* full_elements(double* ptr_array, int n) {
+    printf("Заполнение массива...\n");
+    for (int i = 0; i < n; i++) {
+        
+        double x = i * 0.1;  
+        ptr_array[i] = x * x + sin(x);
+    }
+    return ptr_array;
 }
 
 
-int main() {
-    setlocale(LC_CTYPE, "RUS");
-    float arr[100];
+int put_elements(double* ptr_array, int n) {
+    printf("Элементы массива:\n");
+    for (int i = 0; i < n; i++) {
+        printf("array[%d] = %.3f\n", i, ptr_array[i]);
+    }
+    return n;  
+}
 
 
-    float sum_positive = 0;
-    float sum_negative = 0;
+double* calc_elements(double* ptr_array, int n) {
+    printf("Обработка элементов массива...\n");
 
+    
+    double sum_positive = 0.0;
+    double sum_negative = 0.0;
     int count_positive = 0;
     int count_negative = 0;
 
-    int i;
-
-    for (i = 0; i < 100; i++) {
-        float x = 0.1 + i * (2.0 / 99.0);
-
-
-        arr[i] = calculate(x);
-    }
-
-    for (i = 0; i < 100; i++) {
-        if (arr[i] > 0) {
-            sum_positive = sum_positive + arr[i];
-            count_positive = count_positive + 1;
+    for (int i = 0; i < n; i++) {
+        if (ptr_array[i] > 0) {
+            sum_positive += ptr_array[i];
+            count_positive++;
         }
-        else if (arr[i] < 0) {
-            sum_negative = sum_negative + arr[i];
-            count_negative = count_negative + 1;
+        else if (ptr_array[i] < 0) {
+            sum_negative += ptr_array[i];
+            count_negative++;
         }
     }
 
-    float average;
+    printf("Сумма положительных элементов: %.3f\n", sum_positive);
+    printf("Сумма отрицательных элементов: %.3f\n", sum_negative);
+    printf("Количество положительных элементов: %d\n", count_positive);
+    printf("Количество отрицательных элементов: %d\n", count_negative);
+
     if (count_positive > 0) {
-        average = sum_positive / count_positive;
+        printf("Среднее положительных: %.3f\n", sum_positive / count_positive);
     }
-    else {
-        average = 0;
-    }
-    printf("��� �������: arr ");
-    printf("����� �������������: %.3f ", sum_positive);
-    printf("����� �������������: %.3f ", sum_negative);
-    printf("���������� �������������: %d ", count_positive);
-    printf("���������� �������������: %d ", count_negative);
-    printf("������� �������������: %.3f ", average);
 
+    return ptr_array;
+}
+
+int main() {
+    setlocale(LC_CTYPE, "RUS");
+    double array[N];
+    int size;
+
+    printf("Введите размер массива > ");
+    scanf("%d", &size);
+
+    
+    if (size <= 0 || size > N) {
+        printf("Ошибка: размер должен быть от 1 до %d\n", N);
+        return 1;
+    }
+
+    
+    full_elements(array, size);
+    put_elements(array, size);
+
+    
+    calc_elements(array, size);
 
     return 0;
 }
