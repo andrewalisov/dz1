@@ -1,92 +1,59 @@
 #include <stdio.h>
+#include <math.h>  
 #include <locale.h>
-#define _USE_MATH_DEFINES
-#include <math.h>
-#define N 10
-void main()
-{
-	task3();
+
+float calculate(float x) {
+    float result;
+    result = x * x + sin(5 * x);
+    return result;
 }
-int task1()
-{
 
 
-
+int main() {
     setlocale(LC_CTYPE, "RUS");
-        float A[N];
-        float sum = 0;
-        int i;
+    float arr[100];
 
 
-        puts("Введите 10 чисел:");
-        for (i = 0; i < N; i++) {
-            printf("Число %d: ", i + 1);
-            scanf("%f", &A[i]);
+    float sum_positive = 0;
+    float sum_negative = 0;
+
+    int count_positive = 0;
+    int count_negative = 0;
+
+    int i;
+
+    for (i = 0; i < 100; i++) {
+        float x = 0.1 + i * (2.0 / 99.0);
+
+
+        arr[i] = calculate(x);
+    }
+
+    for (i = 0; i < 100; i++) {
+        if (arr[i] > 0) {
+            sum_positive = sum_positive + arr[i];
+            count_positive = count_positive + 1;
         }
-
-
-        puts("\nРезультаты:");
-        puts("Индекс | Исходное| Новое");
-
-
-        for (i = 0; i < N; i++) {
-            printf("%d | %.2f | %.2f\n", i, A[i], A[i] * 2);
+        else if (arr[i] < 0) {
+            sum_negative = sum_negative + arr[i];
+            count_negative = count_negative + 1;
         }
+    }
+
+    float average;
+    if (count_positive > 0) {
+        average = sum_positive / count_positive;
+    }
+    else {
+        average = 0;
+    }
+    printf("Имя массива: arr ");
+    printf("Сумма положительных: %.3f ", sum_positive);
+    printf("Сумма отрицательных: %.3f ", sum_negative);
+    printf("Количество положительных: %d ", count_positive);
+    printf("Количество отрицательных: %d ", count_negative);
+    printf("Среднее положительных: %.3f ", average);
 
 
-        for (i = 0; i < N; i++) {
-            sum = sum + A[i];
-        }
-
-
-        printf("Среднее: %f\n", sum / N);
-
-        return 0;
-    
-
+    return 0;
 }
-int task2() {
-   
-        
-    setlocale(LC_CTYPE, "RUS"); 
-    int n, i;
-
-        puts("Введите количество чисел: ");
-        scanf("%d", &n);
-
-        int arr[100];
-
-        
-        printf("Введите %d чисел:\n", n);
-        for (i = 0; i < n; i++) {
-            scanf("%d", &arr[i]);
-        }
-
-
-        int min = arr[0];
-        for (i = 1; i < n; i++) {
-            if (arr[i] < min) {
-                min = arr[i];
-            }
-        }
-
-
-        int sum = 0;
-        for (i = 0; i < n; i++) {
-            sum += arr[i];
-        }
-
-
-        int sum_without = sum - min;
-
-
-        float average = (float)sum_without / (n - 1);
-
-        printf("Самое маленькое число: %d\n", min);
-        printf("Среднее арифметическое без самого маленького числа: %.2f\n", average);
-
-        return 0;
-    
-}
-
-  
